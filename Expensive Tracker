@@ -1,0 +1,74 @@
+import datetime
+
+# Expense class to handle individual expenses
+class Expense:
+    def __init__(self, amount, category, description=""):
+        self.amount = amount
+        self.category = category
+        self.description = description
+        self.date = datetime.datetime.now()
+
+    def __str__(self):
+        return f"{self.date.strftime('%Y-%m-%d')} | {self.category} | {self.amount} | {self.description}"
+
+# Expense Tracker class to manage the list of expenses
+class ExpenseTracker:
+    def __init__(self):
+        self.expenses = []
+
+    def add_expense(self, amount, category, description=""):
+        expense = Expense(amount, category, description)
+        self.expenses.append(expense)
+        print(f"Added: {expense}")
+
+    def view_expenses(self):
+        if not self.expenses:
+            print("No expenses recorded.")
+        else:
+            print("Date       | Category   | Amount  | Description")
+            print("-----------------------------------------------")
+            for expense in self.expenses:
+                print(expense)
+
+    def view_by_category(self, category):
+        print(f"Expenses in category: {category}")
+        filtered_expenses = [expense for expense in self.expenses if expense.category == category]
+        if not filtered_expenses:
+            print(f"No expenses recorded in category: {category}")
+        else:
+            for expense in filtered_expenses:
+                print(expense)
+
+# Main program
+def main():
+    tracker = ExpenseTracker()
+    while True:
+        print("\n1. Add Expense")
+        print("2. View All Expenses")
+        print("3. View Expenses by Category")
+        print("4. Exit")
+        
+        choice = input("Choose an option: ")
+
+        if choice == '1':
+            amount = float(input("Enter the expense amount: "))
+            category = input("Enter the expense category: ")
+            description = input("Enter a description (optional): ")
+            tracker.add_expense(amount, category, description)
+        
+        elif choice == '2':
+            tracker.view_expenses()
+
+        elif choice == '3':
+            category = input("Enter the category to filter by: ")
+            tracker.view_by_category(category)
+
+        elif choice == '4':
+            print("Exiting the program.")
+            break
+
+        else:
+            print("Invalid option. Please try again.")
+
+if __name__ == "__main__":
+    main()
